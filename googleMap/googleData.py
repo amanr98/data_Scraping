@@ -1,13 +1,18 @@
 from bs4 import BeautifulSoup as bs
 restro_list = []
+
+
 def googleHtml(innerhtml):
-    
     bodypage = bs(innerhtml,'html.parser')
 
     # main heading 
     r_name = bodypage.select_one('h1.DUwDvf').text
     # sub heading
-    r_name1 = bodypage.select_one('h2.bwoZTb').text
+    r_name1 = bodypage.select_one('h2.bwoZTb')
+    if r_name1:
+        r_name1 = r_name1.text
+    else:
+        r_name1 = 'Not Available'
 
     # starting reviews stars
     headStart = bodypage.select_one('div.F7nice > span').text
@@ -54,7 +59,7 @@ def googleHtml(innerhtml):
     # price suggest by people
     reported_by_people = bodypage.select_one('div.BfVpR')
     if reported_by_people:
-        reported_by_people = price_range_people.text
+        reported_by_people = reported_by_people.text
 
     price_range_people ={
         'price_range':price_range,
@@ -76,4 +81,3 @@ def googleHtml(innerhtml):
     })
 
     print(restro_list)
-
